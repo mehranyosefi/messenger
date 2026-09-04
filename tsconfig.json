@@ -8,14 +8,15 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "target": "ES2020",
-    "module": "CommonJS",
+    "module": "nodenext",
     "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": false,
-    "types": [],
+    "types": ["node"],
+    "moduleResolution": "nodenext",
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -45,5 +46,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,7 +1,6 @@
 import mongoose, { Model } from "mongoose";
 import slugify from "slugify";
 import bcrypt from "bcryptjs";
-import { NextFunction } from "express";
 
 
 export interface IUser extends Document {
