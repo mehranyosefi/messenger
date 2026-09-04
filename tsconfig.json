@@ -9,7 +9,6 @@
     // See also https://aka.ms/tsconfig/module
     "target": "ES2020",
     "module": "CommonJS",
-    "moduleResolution": "node",
     "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
