@@ -8,7 +8,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  passwordConfirm: string | undefined;
+  passwordConfirm?: string | undefined;
   age?: number;
   slug?: string;
   passwordChangedAt?: Date;
@@ -48,12 +48,12 @@ const userSchema = new mongoose.Schema<IUser>({
       select: false,
     },
     passwordConfirm: {
-      type: String || undefined,
+      type: String,
       required: [true, "Please confirm your password"],
       validate:{
         //this only work on CREATE and SAVE!!!
-        validator: function(el) {
-          return el === this.password
+        validator: function (this: IUser, value: string): boolean {
+          return value === this.password
         }
       }
     },
@@ -81,7 +81,7 @@ userSchema.pre('save', function(){
   this.slug = slugify(this.name, { lower: true, strict: true });
   //not necessary any more next()
 })
-userSchema.pre("save", async function (next:NextFunction) {
+userSchema.pre("save", async function () {
   // Password hasn't changed
   if (!this.isModified("password")) return
   this.password = await bcrypt.hash(this.password, 12);

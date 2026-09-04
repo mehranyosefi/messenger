@@ -1,14 +1,18 @@
 import mongoose from 'mongoose';
 mongoose.Schema.Types.String.cast(false)
 const connectToMongoDB = async () => {
-  let databaseUrl: string;
-  if(process.env.NODE_ENV === 'development') databaseUrl = process.env.DATABASE_LOCALE_URL || "mongodb://127.0.0.1:27017/test"
-  else databaseUrl = process.env.DATABASE_URL
+  const databaseUrl =
+  process.env.NODE_ENV === "development"
+    ? process.env.DATABASE_LOCAL
+    : process.env.DATABASE_URL;
 
   if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not defined in the .env file");
+    throw new Error(
+      process.env.NODE_ENV === "development"
+        ? "DATABASE_LOCAL is not defined"
+        : "DATABASE_URL is not defined"
+    );
   }
-
   try {
     const connection = await mongoose.connect(databaseUrl, {
       autoCreate: true
