@@ -131,23 +131,10 @@ export const login = catchAsync(
       email: email.toLowerCase(),
     }).select("+password");
 
-    if (!user) {
-      return next(
-        new AppError(
-          "Invalid email or password",
-          401
-        )
-      );
-    }
+    const passwordIsCorrect = await user?.comparePassword(password, user?.password)
 
 
-    const passwordCorrect = await bcrypt.compare(
-      password,
-      user.password
-    );
-
-
-    if (!passwordCorrect) {
+    if (!user || !passwordIsCorrect) {
       return next(
         new AppError(
           "Invalid email or password",

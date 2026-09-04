@@ -6,7 +6,7 @@ import {
   refreshToken,
   getMe,
 } from "../controllers/AuthController";
-import protect from "../middleware/authMiddleware";
+import protect from "../middleware/protectMiddleware"
 
 
 const router = Router();

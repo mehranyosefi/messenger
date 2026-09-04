@@ -148,24 +148,19 @@ const globalErrorHandler: ErrorRequestHandler = (
   res,
   next
 ) => {
-
   // ----------------------------------------
   // Normalize error
   // ----------------------------------------
-
   const error = err as ErrorWithStatus;
-
   error.statusCode =
     error.statusCode || 500;
 
   error.status =
     error.status || "error";
 
-
   // ----------------------------------------
   // Development
   // ----------------------------------------
-
   if (
     process.env.NODE_ENV === "development"
   ) {
@@ -176,20 +171,15 @@ const globalErrorHandler: ErrorRequestHandler = (
     );
   }
 
-
   // ----------------------------------------
   // Production
   // ----------------------------------------
-
   if (
     process.env.NODE_ENV === "production"
   ) {
-
     let productionError: ErrorWithStatus = {
       ...error,
     };
-
-
     // Mongoose CastError
     if (
       err instanceof mongoose.Error.CastError
@@ -198,8 +188,6 @@ const globalErrorHandler: ErrorRequestHandler = (
       productionError =
         handleCastErrorDB(err);
     }
-
-
     // Mongo duplicate key
     if (
       (err as MongoDuplicateError).code === 11000
@@ -220,6 +208,9 @@ const globalErrorHandler: ErrorRequestHandler = (
       productionError =
         handleValidationErrorDB(err);
     }
+
+    //TODO Handle JsonWebTokenError
+    //TODO Handle TokenExpiredError
 
 
     return sendErrorProd(

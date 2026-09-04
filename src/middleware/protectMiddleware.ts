@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import User from "../models/UserModel";
 
 import {
   verifyAccessToken,
@@ -17,16 +18,13 @@ const protect = catchAsync(
 
     let token: string | undefined;
 
-
-    // Authorization: Bearer <token>
-
+    //1: Check token and check of it;s there
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer ")
     ) {
       token = req.headers.authorization.split(" ")[1];
     }
-
 
     if (!token) {
       return next(
@@ -37,25 +35,31 @@ const protect = catchAsync(
       );
     }
 
+    //2: Verification token
+    const decoded = verifyAccessToken(token) as {
+      id: string;
+      iat: number;
+      exp: number
+    };
+    console.log('decoded', decoded)
 
-    try {
-
-      const decoded = verifyAccessToken(token);
-
-      req.user = decoded;
-
-      next();
-
-    } catch (error) {
-
-      return next(
+    //3: Check if user still exist
+    const currentUser = await User.findById(decoded.id)
+    if(!currentUser) return next(
         new AppError(
           "Invalid or expired access token",
           401
         )
       );
 
-    }
+    //4: check if user change password after the token was issued
+    if(currentUser.changedPawwordAfter(decoded.iat))
+      return next(new AppError('User recently change password! please login againg', 401))
+    
+    // Grant access to protected route
+    req.user = currentUser
+    next()
+
   }
 );
 

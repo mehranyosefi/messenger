@@ -11,13 +11,13 @@ export interface IUser extends Document {
   passwordConfirm: string | undefined;
   age?: number;
   slug?: string;
-
   passwordChangedAt?: Date;
-
   comparePassword(
     candidatePassword: string,
     hashedPassword: string
   ): Promise<boolean>;
+  changedPawwordAfter(JWTTimestamp:number): boolean
+
 }
 
 interface UserModel extends Model<IUser> {}
@@ -87,6 +87,20 @@ userSchema.pre("save", async function (next:NextFunction) {
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined
 });
+
+userSchema.methods.comparePassword = async function(candidatePassword: string, hashedPassword: string) {
+  return await bcrypt.compare(candidatePassword, hashedPassword)
+}
+
+userSchema.methods.changedPawwordAfter = function(JWTTimestamp: number):boolean {
+  if(this.passwordChangedAt) {
+    const changedTimestamp = Math.floor( 
+     this.passwordChangedAt.getTime() / 1000
+    );
+    return JWTTimestamp < changedTimestamp
+  }
+  return false
+}
 
 //QUERY MIDDLEWARE
 // userSchema.pre(/^find/, function(doc){
