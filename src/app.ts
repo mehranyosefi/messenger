@@ -2,9 +2,24 @@ import express from 'express'
 import routes from "./routes/index"
 import { AppError } from './utils/appError'
 import globalErrorHandler from './controllers/ErrorController'
+import cors from "cors";
 const app = express()
 
 //middlewares
+//set cors middleware
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+
 // Middleware to parse JSON
 app.use(express.json())
 app.use((req, res, next)=>{
