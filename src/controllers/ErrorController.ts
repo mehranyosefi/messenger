@@ -177,9 +177,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   if (
     process.env.NODE_ENV === "production"
   ) {
-    let productionError: ErrorWithStatus = {
-      ...error,
-    };
+    let productionError: ErrorWithStatus = error;
     // Mongoose CastError
     if (
       err instanceof mongoose.Error.CastError
