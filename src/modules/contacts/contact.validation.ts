@@ -8,11 +8,21 @@ export const createContactSchema = z.object({
     ),
   }),
 });
+const objectIdSchema = z
+  .string()
+  .regex(
+    /^[0-9a-fA-F]{24}$/,
+    "Invalid contact ID"
+  );
 
 export const updateContactSchema = z.object({
+  params: z.object({
+    id: objectIdSchema,
+  }),
+
   body: z
     .object({
-      name: z
+      nickname: z
         .string()
         .trim()
         .max(100)

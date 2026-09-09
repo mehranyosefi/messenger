@@ -8,7 +8,7 @@ import {
 
 import protect from "../../middleware/protectMiddleware";
 import catchAsync from "../../utils/catchAsync";
-// import { validate } from "../../common/middleware/validate.middleware";
+import { validate } from "../../utils/middleware/validate.middleware";
 // import { catchAsync } from "../../common/utils/catchAsync";
 
 const router = Router();
@@ -34,7 +34,7 @@ router.get(
 
 router.patch(
   "/:id",
-//   validate(updateContactSchema),
+  validate(updateContactSchema),
   catchAsync(contactController.update)
 );
 

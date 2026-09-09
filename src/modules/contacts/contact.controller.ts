@@ -1,4 +1,4 @@
-import type { RequestHandler } from "express";
+import type { Request, RequestHandler, Response } from "express";
 import { Types } from "mongoose";
 import { contactService } from "./contact.service";
 import { AppError } from "../../utils/appError";
@@ -6,7 +6,7 @@ import User from "../users/user.model";
 import catchAsync from "../../utils/catchAsync";
 
 export default class ContactController {
-  create = catchAsync(async (req, res, next) => {
+  create = catchAsync(async (req:Request, res: Response, next) => {
     const ownerEmail = req.user.email;
     // const contactId = new Types.ObjectId(req.body.userId);
     //find contact by email
@@ -30,7 +30,7 @@ export default class ContactController {
     });
   });
 
-  getAll = catchAsync(async (req, res) => {
+  getAll = catchAsync(async (req:Request, res: Response) => {
     const contacts = await contactService.findAll(req.user._id);
 
     res.status(200).json({
@@ -38,8 +38,8 @@ export default class ContactController {
     });
   });
 
-  getOne = catchAsync(async (req, res) => {
-    const contactId = new Types.ObjectId(req.params.id);
+  getOne = catchAsync(async (req:Request, res: Response) => {
+    const contactId = new Types.ObjectId(req.params.id as string);
 
     const contact = await contactService.findOne(req.user._id, contactId);
 
@@ -48,9 +48,8 @@ export default class ContactController {
     });
   });
 
-  update = catchAsync(async (req, res) => {
-
-    const contactId = new Types.ObjectId(req.params.id);
+  update = catchAsync(async (req:Request, res: Response) => {
+    const contactId = new Types.ObjectId(req.params.id as string);
     const contact = await contactService.update(req.user.id, contactId, req.body);
     res.status(200).json({
       data: contact,
@@ -58,7 +57,7 @@ export default class ContactController {
   });
 
   delete = catchAsync(async (req, res) => {
-    const contactId = new Types.ObjectId(req.params.id);
+    const contactId = new Types.ObjectId(req.params.id as string);
     await contactService.delete(req.user.id, contactId);
 
     res.status(204).send();
