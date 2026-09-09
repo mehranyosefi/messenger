@@ -1,71 +1,66 @@
 import type { RequestHandler } from "express";
 import { Types } from "mongoose";
-
 import { contactService } from "./contact.service";
 import { AppError } from "../../utils/appError";
+import User from "../users/user.model";
+import catchAsync from "../../utils/catchAsync";
 
-function getUserId(req: Parameters<RequestHandler>[0]) {
-  if (!req.user) {
-    throw new AppError("Unauthorized", 401);
-  }
-
-  return new Types.ObjectId(req.user._id);
-}
-
-export const contactController = {
-  create: (async (req, res) => {
-    const ownerId = getUserId(req);
-
-    const contactId = new Types.ObjectId(req.body.userId);
-
-    const contact = await contactService.create(ownerId, contactId);
-
+export default class ContactController {
+  create = catchAsync(async (req, res, next) => {
+    const ownerEmail = req.user.email;
+    // const contactId = new Types.ObjectId(req.body.userId);
+    //find contact by email
+    const contactEmail = req.body.email;
+    if (ownerEmail === contactEmail) {
+      throw new AppError("You cannot add yourself as a contact", 400);
+    }
+    const contactExist = await User.exists({
+      email: contactEmail,
+    });
+    if (!contactExist) {
+      return next(new AppError("Contact not found", 404));
+    }
+    const contact = await contactService.create({
+      owner: req.user._id,
+      contact: contactExist._id,
+      name: req.body.name
+    });
     res.status(201).json({
       data: contact,
     });
-  }) as RequestHandler,
+  });
 
-  getAll: (async (req, res) => {
-    const ownerId = getUserId(req);
-
-    const contacts = await contactService.findAll(ownerId);
+  getAll = catchAsync(async (req, res) => {
+    const contacts = await contactService.findAll(req.user._id);
 
     res.status(200).json({
       data: contacts,
     });
-  }) as RequestHandler,
+  });
 
-  getOne: (async (req, res) => {
-    const ownerId = getUserId(req);
-
+  getOne = catchAsync(async (req, res) => {
     const contactId = new Types.ObjectId(req.params.id);
 
-    const contact = await contactService.findOne(ownerId, contactId);
+    const contact = await contactService.findOne(req.user._id, contactId);
 
     res.status(200).json({
       data: contact,
     });
-  }) as RequestHandler,
+  });
 
-  update: (async (req, res) => {
-    const ownerId = getUserId(req);
+  update = catchAsync(async (req, res) => {
 
     const contactId = new Types.ObjectId(req.params.id);
-
-    const contact = await contactService.update(ownerId, contactId, req.body);
-
+    const contact = await contactService.update(req.user.id, contactId, req.body);
     res.status(200).json({
       data: contact,
     });
-  }) as RequestHandler,
+  });
 
-  delete: (async (req, res) => {
-    const ownerId = getUserId(req);
-
+  delete = catchAsync(async (req, res) => {
     const contactId = new Types.ObjectId(req.params.id);
-
-    await contactService.delete(ownerId, contactId);
+    await contactService.delete(req.user.id, contactId);
 
     res.status(204).send();
-  }) as RequestHandler,
-};
+  }) as RequestHandler;
+}

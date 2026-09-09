@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../models/UserModel";
+import User from "../modules/users/user.model";
 
 import {
   verifyAccessToken,
@@ -41,7 +41,6 @@ const protect = catchAsync(
       iat: number;
       exp: number
     };
-    console.log('decoded', decoded)
 
     //3: Check if user still exist
     const currentUser = await User.findById(decoded.id)

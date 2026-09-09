@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "src/config/server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/config/server.ts",
+    "dev": "tsx watch src/config/server.ts",
     "build": "tsc",
     "start": "node dist/config/server.js",
-    "start-dev": "NODE_ENV=production ts-node-dev --respawn --transpile-only src/config/server.ts",
+    "start-dev": "NODE_ENV=production node dist/config/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "ndb src/config/server.ts"
   },
@@ -30,8 +30,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.4.1",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^7.0.2"
+    "tsx": "^4.23.13",
+    "typescript": "5.9.3"
   }
 }

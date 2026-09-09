@@ -5,7 +5,7 @@ import type {
 
 import mongoose from "mongoose";
 
-import { AppError } from "../utils/appError";
+import { AppError } from "./appError";
 
 
 // ==========================================

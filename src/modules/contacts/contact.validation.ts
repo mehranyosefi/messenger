@@ -12,7 +12,7 @@ export const createContactSchema = z.object({
 export const updateContactSchema = z.object({
   body: z
     .object({
-      nickname: z
+      name: z
         .string()
         .trim()
         .max(100)

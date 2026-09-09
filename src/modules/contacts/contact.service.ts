@@ -1,33 +1,17 @@
 import { Types } from "mongoose";
 
-import { ContactModel } from "./contact.model";
+import ContactModel from "./contact.model";
 import User from "../users/user.model";
 import { AppError } from "../../utils/appError";
 
 export class ContactService {
-  async create(ownerId: Types.ObjectId, contactId: Types.ObjectId) {
-    if (ownerId.equals(contactId)) {
-      throw new AppError("You cannot add yourself as a contact", 400);
-    }
-
-    const userExists = await User.exists({
-      _id: contactId,
-    });
-
-    if (!userExists) {
-      throw new AppError("User not found", 404);
-    }
-
+  async create(payload: { owner: Types.ObjectId, contact: Types.ObjectId, name: string }) {
     try {
-      return await ContactModel.create({
-        owner: ownerId,
-        contact: contactId,
-      });
+      return await ContactModel.create(payload);
     } catch (error: any) {
       if (error.code === 11000) {
         throw new AppError("User is already in your contacts", 409);
       }
-
       throw error;
     }
   }
@@ -38,7 +22,7 @@ export class ContactService {
     })
       .populate({
         path: "contact",
-        select: "_id username displayName avatar",
+        select: "_id avatar",
       })
       .sort({
         createdAt: -1,
@@ -53,7 +37,7 @@ export class ContactService {
     })
       .populate({
         path: "contact",
-        select: "_id username displayName avatar",
+        select: "_id avatar",
       })
       .lean();
 
@@ -68,7 +52,7 @@ export class ContactService {
     ownerId: Types.ObjectId,
     contactId: Types.ObjectId,
     data: {
-      nickname?: string | null;
+      name?: string | null;
       favorite?: boolean;
       blocked?: boolean;
     },
@@ -87,7 +71,7 @@ export class ContactService {
       },
     ).populate({
       path: "contact",
-      select: "_id username displayName avatar",
+      select: "_id avatar",
     });
 
     if (!contact) {

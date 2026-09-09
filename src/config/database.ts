@@ -3,7 +3,7 @@ mongoose.Schema.Types.String.cast(false)
 const connectToMongoDB = async () => {
   const databaseUrl =
   process.env.NODE_ENV === "development"
-    ? process.env.DATABASE_LOCAL
+    ? process.env.DATABASE_LOCALE_URL
     : process.env.DATABASE_URL;
 
   if (!databaseUrl) {
@@ -14,6 +14,7 @@ const connectToMongoDB = async () => {
     );
   }
   try {
+    console.log(databaseUrl)
     const connection = await mongoose.connect(databaseUrl, {
       autoCreate: true
     });

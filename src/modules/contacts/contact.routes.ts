@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { contactController } from "./contact.controller";
+import ContactController from "./contact.controller";
 import {
   createContactSchema,
   updateContactSchema,
@@ -12,6 +12,7 @@ import catchAsync from "../../utils/catchAsync";
 // import { catchAsync } from "../../common/utils/catchAsync";
 
 const router = Router();
+const contactController = new ContactController()
 
 router.use(protect);
 

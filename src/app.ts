@@ -1,7 +1,7 @@
 import express from 'express'
 import routes from "./routes/index"
 import { AppError } from './utils/appError'
-import globalErrorHandler from './controllers/ErrorController'
+import globalErrorHandler from './utils/errorHandler';
 import helmet from "helmet";
 import cors from "cors";
 const app = express()

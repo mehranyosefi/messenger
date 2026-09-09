@@ -90,6 +90,7 @@ const userSchema = new mongoose.Schema<IUser>({
 //DOCUMENT MIDDLEWARE: runs before .save() and .create()
 userSchema.pre('save', function(){
   this.slug = slugify(this.name, { lower: true, strict: true });
+  this.username = String(this._id)
   //not necessary any more next()
 })
 userSchema.pre("save", async function () {

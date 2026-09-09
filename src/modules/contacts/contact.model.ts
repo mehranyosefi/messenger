@@ -9,7 +9,7 @@ export interface IContact {
   owner: Types.ObjectId;
   contact: Types.ObjectId;
 
-  nickname: string | null;
+  name: string | null;
 
   favorite: boolean;
   blocked: boolean;
@@ -35,7 +35,7 @@ const contactSchema = new Schema<IContact>(
       required: true,
     },
 
-    nickname: {
+    name: {
       type: String,
       trim: true,
       maxlength: 100,
@@ -72,7 +72,9 @@ contactSchema.index({
   createdAt: -1,
 });
 
-export const ContactModel = model<IContact>(
+const ContactModel = model<IContact>(
   "Contact",
   contactSchema
 );
+
+export default ContactModel

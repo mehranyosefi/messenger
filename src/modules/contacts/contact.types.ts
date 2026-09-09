@@ -6,7 +6,7 @@ export interface CreateContactInput {
 }
 
 export interface UpdateContactInput {
-  nickname?: string | null;
+  name?: string | null;
   favorite?: boolean;
   blocked?: boolean;
 }

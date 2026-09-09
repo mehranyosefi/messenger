@@ -9,7 +9,7 @@ users
 ├── contacts
 │     ├── owner
 │     ├── contact
-│     ├── nickname
+│     ├── name
 │     ├── favorite
 │     ├── blocked
 │     └── timestamps
