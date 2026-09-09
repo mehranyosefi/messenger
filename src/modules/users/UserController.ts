@@ -1,7 +1,7 @@
-import { APIFeatures } from "../utils/apiFeatures";
-import User from "../models/UserModel";
-import catchAsync from "../utils/catchAsync";
-import { AppError } from "../utils/appError";
+import { APIFeatures } from "../../utils/apiFeatures"; 
+import User from "./user.model";
+import catchAsync from "../../utils/catchAsync";
+import { AppError } from "../../utils/appError";
 import type { Request, Response, NextFunction } from "express"
 
 export default class UserController {

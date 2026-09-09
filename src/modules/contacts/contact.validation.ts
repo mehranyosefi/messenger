@@ -1,0 +1,32 @@
+import { z } from "zod";
+
+export const createContactSchema = z.object({
+  body: z.object({
+    userId: z.string().regex(
+      /^[0-9a-fA-F]{24}$/,
+      "Invalid user ID"
+    ),
+  }),
+});
+
+export const updateContactSchema = z.object({
+  body: z
+    .object({
+      nickname: z
+        .string()
+        .trim()
+        .max(100)
+        .nullable()
+        .optional(),
+
+      favorite: z.boolean().optional(),
+
+      blocked: z.boolean().optional(),
+    })
+    .refine(
+      (data) => Object.keys(data).length > 0,
+      {
+        message: "At least one field is required",
+      }
+    ),
+});

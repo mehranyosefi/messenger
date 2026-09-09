@@ -11,6 +11,8 @@ export interface IUser extends Document {
   age?: number;
   slug?: string;
   passwordChangedAt?: Date;
+  username?: string;
+  avatar?: string | null;
   comparePassword(
     candidatePassword: string,
     hashedPassword: string
@@ -59,6 +61,16 @@ const userSchema = new mongoose.Schema<IUser>({
 
     age: {
       type: Number,
+    },
+    username: {
+      type: String,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+    avatar: {
+      type: String,
+      default: null,
     },
 
     slug: {

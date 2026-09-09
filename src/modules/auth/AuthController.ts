@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../models/UserModel";
+import User from "../users/user.model";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
@@ -7,10 +7,10 @@ import {
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
-} from "../utils/jwt";
+} from "../../utils/jwt";
 
-import catchAsync from "../utils/catchAsync";
-import { AppError } from "../utils/appError";
+import catchAsync from "../../utils/catchAsync";
+import { AppError } from "../../utils/appError";
 
 
 // ------------------------------------
@@ -168,6 +168,10 @@ export const login = catchAsync(
     });
   }
 );
+
+// ------------------------------------
+// LOGOUT
+// ------------------------------------
 
 
 // ------------------------------------

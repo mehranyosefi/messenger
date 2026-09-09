@@ -2,10 +2,12 @@ import express from 'express'
 import routes from "./routes/index"
 import { AppError } from './utils/appError'
 import globalErrorHandler from './controllers/ErrorController'
+import helmet from "helmet";
 import cors from "cors";
 const app = express()
 
 //middlewares
+app.use(helmet())
 //set cors middleware
 app.use(
   cors({
