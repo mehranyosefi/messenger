@@ -1,16 +1,16 @@
 import dotenv from "dotenv"
 // import mongoose from "mongoose"
-import connectToMongoDB from "./database"
+import connectToMongoDB from "./config/database"
 
 dotenv.config({path: './.env'})
-import app from "../app"
+import app from "./app"
 
 const port = process.env.PORT || 3000
 
 connectToMongoDB()
 
 const server = app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Messengar app listening on port ${port}`)
 })
 //Errors outside Express
 process.on('unhandledRejection', err=> {
