@@ -1,6 +1,6 @@
 import type { Request, RequestHandler, Response } from "express";
 import { Types } from "mongoose";
-import { contactService } from "./contact.service";
+import { contactService } from "./contact.services";
 import { AppError } from "../../utils/appError";
 import User from "../users/user.model";
 import catchAsync from "../../utils/catchAsync";

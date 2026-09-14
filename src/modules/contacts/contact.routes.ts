@@ -4,7 +4,7 @@ import ContactController from "./contact.controller";
 import {
   createContactSchema,
   updateContactSchema,
-} from "./contact.validation";
+} from "./contact.validations";
 
 import protect from "../../middleware/protectMiddleware";
 import catchAsync from "../../utils/catchAsync";
