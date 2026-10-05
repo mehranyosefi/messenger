@@ -32,3 +32,66 @@ users
       ├── device
       ├── refreshToken
       └── expiresAt
+
+
+
+
+
+
+
+
+
+
+
+## The architecture
+
+                         ┌──────────────┐
+                         │    Client    │
+                         └──────┬───────┘
+                                │
+                    ┌───────────┴───────────┐
+                    │                       │
+                  HTTP                  WebSocket
+                    │                       │
+                    ▼                       ▼
+             Express Router          WS Gateway
+                    │                       │
+                    ▼                       ▼
+               Controllers             WS Events
+                    │                       │
+                    └──────────┬────────────┘
+                               ▼
+                         Service Layer
+                               │
+                 ┌─────────────┼─────────────┐
+                 ▼             ▼             ▼
+             Contacts    Conversations    Messages
+                               │             │
+                               └──────┬──────┘
+                                      ▼
+                                   MongoDB
+                                     
+                         Redis ◄──── WebSocket
+                           │
+             ┌─────────────┼─────────────┐
+             ▼             ▼             ▼
+          Presence       Pub/Sub      Typing
+
+
+
+
+                    HTTP Server
+                        │
+             ┌──────────┴──────────┐
+             ▼                     ▼
+          Express               Socket.IO
+             │                     │
+             ▼                     ▼
+        REST Modules         WS Handlers
+             │                     │
+             └──────────┬──────────┘
+                        ▼
+                    Services
+                        │
+                        ▼
+                     MongoDB

@@ -1,9 +1,11 @@
 import { Router } from "express";
+import protect from "../middleware/protectMiddleware"
+import AuthController from "../modules/auth/auth.controller";
 //routes
 import userRoutes from "../modules/users/user.routes"
-import AuthController from "../modules/auth/auth.controller";
 import contactRoutes from "../modules/contacts/contact.routes"
-import protect from "../middleware/protectMiddleware"
+import conversationRoutes from "../modules/conversations/conversation.routes";
+import messageRoutes from "../modules/messages/message.routes"
 
 
 
@@ -14,7 +16,7 @@ router.get("/", (req, res) => {
   res.send("Hello World from TypeScript project structure!");
 });
 
-//users routes
+//users
 router.use("/users", userRoutes)
 
 router.post("/signup", authController.signup);
@@ -23,9 +25,12 @@ router.post("/refresh", authController.refreshToken);
 
 router.get("/me", protect, authController.getMe);
 
-//contacts routes
+//contacts
 router.use("/contacts", contactRoutes);
-
+//conversations
+router.use("/conversations", conversationRoutes);
+//messages
+router.use("/messages", messageRoutes);
 
 
 export default router;

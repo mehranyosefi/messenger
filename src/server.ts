@@ -1,21 +1,31 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import http from "http";
 // import mongoose from "mongoose"
-import connectToMongoDB from "./config/database"
+import connectToMongoDB from "./config/database";
+import { createWebSocketServer } from "./infrastructure/websocket/websocket.server";
 
-dotenv.config({path: './.env'})
-import app from "./app"
+dotenv.config({ path: "./.env" });
+import app from "./app";
 
-const port = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
-connectToMongoDB()
+connectToMongoDB();
 
-const server = app.listen(port, () => {
-  console.log(`Messengar app listening on port ${port}`)
-})
+const httpServer = http.createServer(app);
+createWebSocketServer(httpServer);
+
+httpServer.listen(
+  PORT,
+  () => {
+    console.log(
+      `Server running on port ${PORT}`
+    );
+  }
+);
 //Errors outside Express
-process.on('unhandledRejection', err=> {
+process.on("unhandledRejection", (err) => {
   // console.log(err.name, err.message)
-  console.log('Unhandled rejection. Shutting down ...')
+  console.log("Unhandled rejection. Shutting down ...");
 
-  server.close(()=> process.exit(1))
-})
+  server.close(() => process.exit(1));
+});
