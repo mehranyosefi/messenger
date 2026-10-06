@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { ParamsDictionary } from "express-serve-static-core";
+import type { ParsedQs } from "qs";
 
 const objectIdSchema = z
   .string()
@@ -7,7 +9,6 @@ const objectIdSchema = z
 export const createMessageSchema = z.object({
   body: z.object({
     conversationId: objectIdSchema,
-
     content: z
       .string()
       .trim()
@@ -22,14 +23,10 @@ export const messageIdSchema = z.object({
   }),
 });
 
-// GET /api/v1/messages/conversation/65...?
-//     limit=50&
-//     before=65abc...
 export const conversationMessagesSchema = z.object({
   params: z.object({
     conversationId: objectIdSchema,
   }),
-
   query: z.object({
     limit: z.coerce.number().int().min(1).max(100).default(50),
     before: objectIdSchema.optional(),
@@ -40,7 +37,6 @@ export const updateMessageSchema = z.object({
   params: z.object({
     id: objectIdSchema,
   }),
-
   body: z.object({
     content: z
       .string()
@@ -50,18 +46,21 @@ export const updateMessageSchema = z.object({
   }),
 });
 
+// Types
 export type CreateMessageBody = z.infer<typeof createMessageSchema>["body"];
 
-export type MessageIdParams = z.infer<typeof messageIdSchema>["params"];
+export type MessageIdParams = z.infer<typeof messageIdSchema>["params"] & ParamsDictionary;
 
 export type ConversationMessagesParams = z.infer<
   typeof conversationMessagesSchema
->["params"];
+>["params"] & ParamsDictionary;
 
 export type ConversationMessagesQuery = z.infer<
   typeof conversationMessagesSchema
->["query"];
+>["query"] & ParsedQs;
 
-export type UpdateMessageParams = z.infer<typeof updateMessageSchema>["params"];
+export type UpdateMessageParams = z.infer<
+  typeof updateMessageSchema
+>["params"] & ParamsDictionary;
 
 export type UpdateMessageBody = z.infer<typeof updateMessageSchema>["body"];
