@@ -1,4 +1,3 @@
-//  Create and configure Socket.IO
 import type { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 import { socketAuthMiddleware } from "./websocket.auth";
@@ -17,6 +16,12 @@ import type {
 } from "./websocket.types";
 
 export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
+  const allowedOrigins = [
+    process.env.CLIENT_URL,
+    "http://localhost:5173",
+    "http://localhost:3000",
+  ].filter(Boolean) as string[];
+
   const io = new Server<
     ClientToServerEvents,
     ServerToClientEvents,
@@ -24,24 +29,24 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
     SocketData
   >(httpServer, {
     cors: {
-      origin: process.env.CLIENT_URL ?? "http://localhost:5173",
+      origin: process.env.CLIENT_URL ? allowedOrigins : "*",
       methods: ["GET", "POST"],
+      allowedHeaders: ["token", "Authorization", "Content-Type"],
       credentials: true,
     },
+    transports: ["polling", "websocket"],
+    pingTimeout: 60000,
+    pingInterval: 25000,
   });
 
   io.use(socketAuthMiddleware);
 
   io.on(SocketEvent.CONNECTION, (socket: AppSocket) => {
     const userId = socket.data.user.id;
-    /**
-     * Every socket belonging to this user
-     * joins the user's personal room.
-     */
+
     socket.join(getUserRoom(userId));
 
     registerMessageHandlers(io, socket);
-
     registerConversationHandlers(socket);
 
     socket.on("disconnect", () => {
