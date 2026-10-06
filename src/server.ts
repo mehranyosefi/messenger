@@ -7,7 +7,7 @@ import { createWebSocketServer } from "./infrastructure/websocket/websocket.serv
 dotenv.config({ path: "./.env" });
 import app from "./app";
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 connectToMongoDB();
 
@@ -16,6 +16,7 @@ createWebSocketServer(httpServer);
 
 httpServer.listen(
   PORT,
+  "0.0.0.0",
   () => {
     console.log(
       `Server running on port ${PORT}`

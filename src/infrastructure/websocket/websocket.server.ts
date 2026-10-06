@@ -16,12 +16,6 @@ import type {
 } from "./websocket.types";
 
 export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
-  const allowedOrigins = [
-    process.env.CLIENT_URL,
-    "http://localhost:5173",
-    "http://localhost:3000",
-  ].filter(Boolean) as string[];
-
   const io = new Server<
     ClientToServerEvents,
     ServerToClientEvents,
@@ -29,14 +23,19 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
     SocketData
   >(httpServer, {
     cors: {
-      origin: process.env.CLIENT_URL ? allowedOrigins : "*",
+      origin: true,
       methods: ["GET", "POST"],
       allowedHeaders: ["token", "Authorization", "Content-Type"],
       credentials: true,
     },
     transports: ["polling", "websocket"],
+    allowEIO3: true,
     pingTimeout: 60000,
     pingInterval: 25000,
+  });
+
+  io.engine.on("connection_error", (err) => {
+    console.log("Socket Connection Engine Error:", err.req?.headers, err.message, err.context);
   });
 
   io.use(socketAuthMiddleware);
