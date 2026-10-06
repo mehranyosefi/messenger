@@ -18,9 +18,7 @@ router.use(protect);
 
 router.get(
   "/",
-  catchAsync(
-    conversationController.getAll
-  )
+  conversationController.getAll
 );
 
 //POST /api/v1/conversations
@@ -30,16 +28,18 @@ router.get(
 router.post(
   "/",
   validate(createConversationSchema),
-  catchAsync(
-    conversationController.create
-  )
+  conversationController.create
 );
 
 router.get(
   "/:id",
-  catchAsync(
-    conversationController.getOne
-  )
+  conversationController.getOne
+
+);
+router.delete(
+  "/:id",
+  conversationController.delete
+
 );
 
 export default router;

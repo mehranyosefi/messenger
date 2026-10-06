@@ -32,7 +32,6 @@ export const conversationMessagesSchema = z.object({
 
   query: z.object({
     limit: z.coerce.number().int().min(1).max(100).default(50),
-
     before: objectIdSchema.optional(),
   }),
 });

@@ -1,9 +1,6 @@
 // TypeScript socket/event types
 
-import type {
-  Socket,
-  Server
-} from "socket.io";
+import type { Socket, Server } from "socket.io";
 
 export interface SocketUser {
   id: string;
@@ -12,42 +9,19 @@ export interface SocketUser {
 export interface ClientToServerEvents {
   "message:send": (
     data: SendMessagePayload,
-    callback?: SocketCallback<SendMessageResponse>
+    callback?: SocketCallback<SendMessageResponse>,
   ) => void;
-
-  "conversation:join": (
-    data: ConversationRoomPayload
-  ) => void;
-
-  "conversation:leave": (
-    data: ConversationRoomPayload
-  ) => void;
-
-  "typing:start": (
-    data: ConversationRoomPayload
-  ) => void;
-
-  "typing:stop": (
-    data: ConversationRoomPayload
-  ) => void;
+  "conversation:join": (data: ConversationRoomPayload) => void;
+  "conversation:leave": (data: ConversationRoomPayload) => void;
+  "typing:start": (data: ConversationRoomPayload) => void;
+  "typing:stop": (data: ConversationRoomPayload) => void;
 }
 
 export interface ServerToClientEvents {
-  "message:new": (
-    data: MessageSocketPayload
-  ) => void;
-
-  "typing:start": (
-    data: TypingSocketPayload
-  ) => void;
-
-  "typing:stop": (
-    data: TypingSocketPayload
-  ) => void;
-
-  error: (
-    data: SocketErrorPayload
-  ) => void;
+  "message:new": (data: MessageSocketPayload) => void;
+  "typing:start": (data: TypingSocketPayload) => void;
+  "typing:stop": (data: TypingSocketPayload) => void;
+  error: (data: SocketErrorPayload) => void;
 }
 
 export interface InterServerEvents {
@@ -69,19 +43,12 @@ export interface ConversationRoomPayload {
 
 export interface MessageSocketPayload {
   _id: string;
-
   conversation: string;
-
   sender: string;
-
   type: "text";
-
   content: string;
-
   status: "sent" | "delivered" | "read";
-
   createdAt: Date;
-
   updatedAt: Date;
 }
 
@@ -104,7 +71,7 @@ export interface SocketCallback<T> {
       | {
           success: false;
           error: string;
-        }
+        },
   ): void;
 }
 

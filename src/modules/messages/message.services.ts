@@ -38,7 +38,7 @@ export default class MessageServices {
       content,
       status: "sent",
     });
-
+    //TODO for a more robust system, you may eventually use a MobgoDB transaction: create message + update conversation
     await ConversationModel.updateOne(
       {
         _id: conversation._id,

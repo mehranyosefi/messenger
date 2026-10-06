@@ -11,14 +11,11 @@ import {
 
 import protect from "../../middleware/protectMiddleware";
 
-import catchAsync from "../../utils/catchAsync";
-
 import { validate } from "../../utils/middleware/validate.middleware";
 
 const router = Router();
 
-const messageController =
-  new MessageController();
+const messageController = new MessageController();
 
 router.use(protect);
 
@@ -26,37 +23,34 @@ router.use(protect);
 router.post(
   "/",
   validate(createMessageSchema),
-  catchAsync(messageController.create)
+  messageController.create
 );
 //GET /api/v1/messages/conversation/65f123456789abcdef123456?limit=50
+//GET /api/v1/messages/conversation/:conversationId?limit=50&before=<oldestMessageId>
 router.get(
   "/conversation/:conversationId",
   validate(conversationMessagesSchema),
-  catchAsync(
-    messageController.getConversationMessages
-  )
+  messageController.getConversationMessages
 );
 
-//GET /api/v1/messages/conversation/:conversationId?limit=50
-//GET /api/v1/messages/conversation/:conversationId?limit=50&before=<oldestMessageId>
 router.get(
   "/:id",
   validate(messageIdSchema),
-  catchAsync(messageController.getOne)
+  messageController.getOne
 );
 
 //PATCH /api/v1/messages/:messageId
 router.patch(
   "/:id",
   validate(updateMessageSchema),
-  catchAsync(messageController.update)
+  messageController.update
 );
 
 //DELETE /api/v1/messages/:messageId
 router.delete(
   "/:id",
   validate(messageIdSchema),
-  catchAsync(messageController.delete)
+  messageController.delete
 );
 
 export default router;

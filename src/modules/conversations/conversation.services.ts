@@ -89,6 +89,23 @@ export default class ConversationServices {
 
     return conversation;
   }
+   async deleteConversationById(
+    conversationId: string,
+    userId: string
+  ): Promise<undefined> {
+    const conversation =
+      await ConversationModel.deleteOne({
+        _id: new Types.ObjectId(conversationId),
+        participants: new Types.ObjectId(userId),
+      }).exec();
+      console.log('delete',conversation)
+    if (conversation.deletedCount === 0) {
+      throw new AppError(
+        "Conversation not found",
+        404
+      );
+    }
+  }
 
   private isDuplicateKeyError(
     error: unknown
