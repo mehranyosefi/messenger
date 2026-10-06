@@ -34,6 +34,10 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
     pingInterval: 25000,
   });
 
+   io.engine.on("initial_headers", (headers, req) => {
+    console.log(">>> Engine.IO Handshake Started from IP:", req.socket.remoteAddress);
+  });
+
   io.engine.on("connection_error", (err) => {
     console.log("Socket Connection Engine Error:", err.req?.headers, err.message, err.context);
   });
