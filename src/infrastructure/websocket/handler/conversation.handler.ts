@@ -9,6 +9,7 @@ export const registerConversationHandlers = (socket: AppSocket): void => {
   socket.on(
     SocketEvent.CONVERSATION_JOIN,
     async (data: ConversationRoomPayload) => {
+      console.log('data.conversationId', data)
       try {
         await conversationServices.getConversationById(
           data.conversationId,

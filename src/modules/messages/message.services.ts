@@ -19,6 +19,7 @@ export default class MessageServices {
     conversationId: string,
     content: string,
   ): Promise<IMessage> {
+    console.log('conversationId',conversationId)
     const conversation = await ConversationModel.findOne({
       _id: new Types.ObjectId(conversationId),
       participants: new Types.ObjectId(senderId),
@@ -59,6 +60,7 @@ export default class MessageServices {
     limit: number,
     before?: string,
   ): Promise<GetConversationMessagesResult> {
+    console.log('limit', limit)
     const conversation = await ConversationModel.findOne({
       _id: new Types.ObjectId(conversationId),
       participants: new Types.ObjectId(userId),
@@ -87,10 +89,10 @@ export default class MessageServices {
     }
 
     const messages = await MessageModel.find(filter)
-      .sort({
-        createdAt: -1,
-      })
-      .limit(limit + 1)
+      // .sort({
+      //   createdAt: -1,
+      // })
+      .limit(parseInt(String(limit)) + 1)
       .exec();
 
     const hasMore = messages.length > limit;

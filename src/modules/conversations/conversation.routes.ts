@@ -42,4 +42,10 @@ router.delete(
 
 );
 
+router.get(
+  "/get-by-contact-id/:id",
+  conversationController.getbyContactId
+
+);
+
 export default router;

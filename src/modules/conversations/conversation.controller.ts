@@ -2,16 +2,10 @@ import type { Request, Response } from "express";
 
 import ConversationServices from "./conversation.services";
 import catchAsync from "../../utils/catchAsync";
+import { ConversationParams, CreateConversationBody } from "./conversation.types";
 
-interface CreateConversationBody {
-  participantId: string;
-}
 
-interface ConversationParams {
-  id: string;
-}
-
-class ConversationController {
+export default class ConversationController {
   private readonly conversationService = new ConversationServices();
 
   create = catchAsync(
@@ -58,6 +52,11 @@ class ConversationController {
     await this.conversationService.deleteConversationById(req.params.id, req.user.id)
     res.status(204).send();
   });
-}
 
-export default ConversationController;
+  getbyContactId = catchAsync(async(req: Request<{ id:string }>, res: Response)=> {
+    const conversation = await this.conversationService.getConversationbyContactId(req.params.id, req.user.id)
+    return res.status(200).json({
+      data: conversation
+    })
+  })
+}

@@ -34,13 +34,10 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
     pingInterval: 25000,
   });
 
-   io.engine.on("initial_headers", (headers, req) => {
+  io.engine.on("initial_headers", (headers, req) => {
     console.log(">>> Engine.IO Handshake Started from IP:", req.socket.remoteAddress);
   });
 
-  io.engine.on("connection_error", (err) => {
-    console.log("Socket Connection Engine Error:", err.req?.headers, err.message, err.context);
-  });
 
   io.use(socketAuthMiddleware);
 
@@ -48,7 +45,7 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
     const userId = socket.data.user.id;
 
     socket.join(getUserRoom(userId));
-
+    console.log('tes')
     registerMessageHandlers(io, socket);
     registerConversationHandlers(socket);
 

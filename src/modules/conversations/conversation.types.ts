@@ -17,3 +17,10 @@ export interface IConversation {
   createdAt: Date;
   updatedAt: Date;
 }
+export interface CreateConversationBody {
+  participantId: string;
+}
+
+export interface ConversationParams {
+  id: string;
+}
