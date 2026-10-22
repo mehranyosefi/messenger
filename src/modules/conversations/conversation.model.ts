@@ -1,8 +1,4 @@
-import {
-  Schema,
-  model,
-  type Model,
-} from "mongoose";
+import { Schema, model, type Model } from "mongoose";
 
 import type { IConversation } from "./conversation.types";
 
@@ -37,13 +33,16 @@ const conversationSchema = new Schema<IConversation>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 //NotUn
 conversationSchema.index({
   participants: 1,
 });
 
-const ConversationModel: Model<IConversation> = model<IConversation>("Conversation", conversationSchema);
+const ConversationModel: Model<IConversation> = model<IConversation>(
+  "Conversation",
+  conversationSchema,
+);
 
 export default ConversationModel;

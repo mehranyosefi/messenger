@@ -17,5 +17,4 @@ export const SocketEvent = {
   TYPING_STOP: "typing:stop",
 } as const;
 
-export type SocketEventName =
-  (typeof SocketEvent)[keyof typeof SocketEvent];
+export type SocketEventName = (typeof SocketEvent)[keyof typeof SocketEvent];

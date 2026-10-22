@@ -6,7 +6,7 @@ import User from "../users/user.model";
 import catchAsync from "../../utils/catchAsync";
 
 export default class ContactController {
-  create = catchAsync(async (req:Request, res: Response, next) => {
+  create = catchAsync(async (req: Request, res: Response, next) => {
     const ownerEmail = req.user.email;
     // const contactId = new Types.ObjectId(req.body.userId);
     //find contact by email
@@ -23,14 +23,14 @@ export default class ContactController {
     const contact = await contactService.create({
       owner: req.user._id,
       contact: contactExist._id,
-      name: req.body.name
+      name: req.body.name,
     });
     res.status(201).json({
       data: contact,
     });
   });
 
-  getAll = catchAsync(async (req:Request, res: Response) => {
+  getAll = catchAsync(async (req: Request, res: Response) => {
     const contacts = await contactService.findAll(req.user._id);
 
     res.status(200).json({
@@ -38,7 +38,7 @@ export default class ContactController {
     });
   });
 
-  getOne = catchAsync(async (req:Request, res: Response) => {
+  getOne = catchAsync(async (req: Request, res: Response) => {
     const contactId = new Types.ObjectId(req.params.id as string);
 
     const contact = await contactService.findOne(req.user._id, contactId);
@@ -48,9 +48,13 @@ export default class ContactController {
     });
   });
 
-  update = catchAsync(async (req:Request, res: Response) => {
+  update = catchAsync(async (req: Request, res: Response) => {
     const contactId = new Types.ObjectId(req.params.id as string);
-    const contact = await contactService.update(req.user.id, contactId, req.body);
+    const contact = await contactService.update(
+      req.user.id,
+      contactId,
+      req.body,
+    );
     res.status(200).json({
       data: contact,
     });

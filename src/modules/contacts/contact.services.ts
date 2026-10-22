@@ -5,7 +5,11 @@ import User from "../users/user.model";
 import { AppError } from "../../utils/appError";
 
 export class ContactService {
-  async create(payload: { owner: Types.ObjectId, contact: Types.ObjectId, name: string }) {
+  async create(payload: {
+    owner: Types.ObjectId;
+    contact: Types.ObjectId;
+    name: string;
+  }) {
     try {
       return await ContactModel.create(payload);
     } catch (error: any) {

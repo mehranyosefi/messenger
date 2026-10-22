@@ -1,11 +1,6 @@
 import { z } from "zod";
 
-const objectIdSchema = z
-  .string()
-  .regex(
-    /^[0-9a-fA-F]{24}$/,
-    "Invalid user ID"
-  );
+const objectIdSchema = z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid user ID");
 
 export const createConversationSchema = z.object({
   body: z.object({
@@ -15,9 +10,7 @@ export const createConversationSchema = z.object({
 import type { RequestHandler } from "express";
 import type { ZodObject } from "zod";
 
-export const validate = (
-  schema: ZodObject<any>
-): RequestHandler => {
+export const validate = (schema: ZodObject<any>): RequestHandler => {
   return (req, res, next) => {
     const result = schema.safeParse({
       body: req.body,

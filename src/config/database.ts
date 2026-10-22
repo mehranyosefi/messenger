@@ -1,27 +1,27 @@
-import mongoose from 'mongoose';
-mongoose.Schema.Types.String.cast(false)
+import mongoose from "mongoose";
+mongoose.Schema.Types.String.cast(false);
 const connectToMongoDB = async () => {
   const databaseUrl =
-  process.env.NODE_ENV === "development"
-    ? process.env.DATABASE_LOCALE_URL
-    : process.env.DATABASE_URL;
+    process.env.NODE_ENV === "development"
+      ? process.env.DATABASE_LOCALE_URL
+      : process.env.DATABASE_URL;
 
   if (!databaseUrl) {
     throw new Error(
       process.env.NODE_ENV === "development"
         ? "DATABASE_LOCAL is not defined"
-        : "DATABASE_URL is not defined"
+        : "DATABASE_URL is not defined",
     );
   }
   try {
-    console.log(databaseUrl)
+    console.log(databaseUrl);
     const connection = await mongoose.connect(databaseUrl, {
-      autoCreate: true
+      autoCreate: true,
     });
 
-    console.log('MongoDB Connected');
+    console.log("MongoDB Connected");
   } catch (error) {
-    console.error('MongoDB connection failed:', error);
+    console.error("MongoDB connection failed:", error);
     // process.exit(1);
   }
 };

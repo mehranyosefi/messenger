@@ -50,7 +50,7 @@ export const registerMessageHandlers = (
         );
 
         const messagePayload = serializeMessage(message);
-        console.log('messagePayload', messagePayload)
+        console.log("messagePayload", messagePayload);
         callback?.({
           success: true,
           data: {

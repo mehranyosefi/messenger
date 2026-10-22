@@ -2,8 +2,10 @@ import type { Request, Response } from "express";
 
 import ConversationServices from "./conversation.services";
 import catchAsync from "../../utils/catchAsync";
-import { ConversationParams, CreateConversationBody } from "./conversation.types";
-
+import {
+  ConversationParams,
+  CreateConversationBody,
+} from "./conversation.types";
 
 export default class ConversationController {
   private readonly conversationService = new ConversationServices();
@@ -48,15 +50,26 @@ export default class ConversationController {
     },
   );
 
-  delete = catchAsync(async(req: Request<ConversationParams>, res: Response)=>{
-    await this.conversationService.deleteConversationById(req.params.id, req.user.id)
-    res.status(204).send();
-  });
+  delete = catchAsync(
+    async (req: Request<ConversationParams>, res: Response) => {
+      await this.conversationService.deleteConversationById(
+        req.params.id,
+        req.user.id,
+      );
+      res.status(204).send();
+    },
+  );
 
-  getbyContactId = catchAsync(async(req: Request<{ id:string }>, res: Response)=> {
-    const conversation = await this.conversationService.getConversationbyContactId(req.params.id, req.user.id)
-    return res.status(200).json({
-      data: conversation
-    })
-  })
+  getbyContactId = catchAsync(
+    async (req: Request<{ id: string }>, res: Response) => {
+      const conversation =
+        await this.conversationService.getConversationbyContactId(
+          req.params.id,
+          req.user.id,
+        );
+      return res.status(200).json({
+        data: conversation,
+      });
+    },
+  );
 }

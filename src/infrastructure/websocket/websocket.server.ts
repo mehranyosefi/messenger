@@ -35,9 +35,11 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
   });
 
   io.engine.on("initial_headers", (headers, req) => {
-    console.log(">>> Engine.IO Handshake Started from IP:", req.socket.remoteAddress);
+    console.log(
+      ">>> Engine.IO Handshake Started from IP:",
+      req.socket.remoteAddress,
+    );
   });
-
 
   io.use(socketAuthMiddleware);
 
@@ -45,7 +47,7 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
     const userId = socket.data.user.id;
 
     socket.join(getUserRoom(userId));
-    console.log('tes')
+    console.log("tes");
     registerMessageHandlers(io, socket);
     registerConversationHandlers(socket);
 

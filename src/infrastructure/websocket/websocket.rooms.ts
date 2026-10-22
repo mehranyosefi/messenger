@@ -1,13 +1,9 @@
 // Room name helpers
-export const getUserRoom = (
-  userId: string
-): string => {
+export const getUserRoom = (userId: string): string => {
   return `user:${userId}`;
 };
 
-export const getConversationRoom = (
-  conversationId: string
-): string => {
+export const getConversationRoom = (conversationId: string): string => {
   return `conversation:${conversationId}`;
 };
 

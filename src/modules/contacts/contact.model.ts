@@ -1,9 +1,4 @@
-import {
-  Schema,
-  model,
-  Types,
-  HydratedDocument,
-} from "mongoose";
+import { Schema, model, Types, HydratedDocument } from "mongoose";
 
 export interface IContact {
   owner: Types.ObjectId;
@@ -54,7 +49,7 @@ const contactSchema = new Schema<IContact>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 contactSchema.index(
@@ -64,7 +59,7 @@ contactSchema.index(
   },
   {
     unique: true,
-  }
+  },
 );
 
 contactSchema.index({
@@ -72,9 +67,6 @@ contactSchema.index({
   createdAt: -1,
 });
 
-const ContactModel = model<IContact>(
-  "Contact",
-  contactSchema
-);
+const ContactModel = model<IContact>("Contact", contactSchema);
 
-export default ContactModel
+export default ContactModel;

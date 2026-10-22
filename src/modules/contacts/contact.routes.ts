@@ -12,35 +12,26 @@ import { validate } from "../../utils/middleware/validate.middleware";
 // import { catchAsync } from "../../common/utils/catchAsync";
 
 const router = Router();
-const contactController = new ContactController()
+const contactController = new ContactController();
 
 router.use(protect);
 
-router.get(
-  "/",
-  catchAsync(contactController.getAll)
-);
+router.get("/", catchAsync(contactController.getAll));
 
 router.post(
   "/",
-//   validate(createContactSchema),
-  catchAsync(contactController.create)
+  //   validate(createContactSchema),
+  catchAsync(contactController.create),
 );
 
-router.get(
-  "/:id",
-  catchAsync(contactController.getOne)
-);
+router.get("/:id", catchAsync(contactController.getOne));
 
 router.patch(
   "/:id",
   validate(updateContactSchema),
-  catchAsync(contactController.update)
+  catchAsync(contactController.update),
 );
 
-router.delete(
-  "/:id",
-  catchAsync(contactController.delete)
-);
+router.delete("/:id", catchAsync(contactController.delete));
 
 export default router;

@@ -20,37 +20,21 @@ const messageController = new MessageController();
 router.use(protect);
 
 //POST /api/v1/messages
-router.post(
-  "/",
-  validate(createMessageSchema),
-  messageController.create
-);
+router.post("/", validate(createMessageSchema), messageController.create);
 //GET /api/v1/messages/conversation/65f123456789abcdef123456?limit=50
 //GET /api/v1/messages/conversation/:conversationId?limit=50&before=<oldestMessageId>
 router.get(
   "/conversation/:conversationId",
   validate(conversationMessagesSchema),
-  messageController.getConversationMessages
+  messageController.getConversationMessages,
 );
 
-router.get(
-  "/:id",
-  validate(messageIdSchema),
-  messageController.getOne
-);
+router.get("/:id", validate(messageIdSchema), messageController.getOne);
 
 //PATCH /api/v1/messages/:messageId
-router.patch(
-  "/:id",
-  validate(updateMessageSchema),
-  messageController.update
-);
+router.patch("/:id", validate(updateMessageSchema), messageController.update);
 
 //DELETE /api/v1/messages/:messageId
-router.delete(
-  "/:id",
-  validate(messageIdSchema),
-  messageController.delete
-);
+router.delete("/:id", validate(messageIdSchema), messageController.delete);
 
 export default router;

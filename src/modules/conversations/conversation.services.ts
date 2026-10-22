@@ -124,8 +124,6 @@ export default class ConversationServices {
   //   }).exec();
   //   if(conversation) return conversation;
 
-    
-
   //   // const conversation = await ConversationModel.findOne({
   //   //   conversationKey,
   //   //   participants: new Types.ObjectId(userId),
@@ -134,7 +132,6 @@ export default class ConversationServices {
   //   // if (!conversation) throw new AppError("conversation not found", 404);
   //   // return conversation;
   // }
-
 
   private isDuplicateKeyError(error: unknown): error is { code: number } {
     if (typeof error !== "object" || error === null) {

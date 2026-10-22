@@ -8,7 +8,8 @@ export const socketAuthMiddleware = (
   next: (err?: ExtendedError) => void,
 ): void => {
   try {
-    const token = socket.handshake.auth?.token || socket.handshake.headers['token']
+    const token =
+      socket.handshake.auth?.token || socket.handshake.headers["token"];
     if (typeof token !== "string" || token.length === 0) {
       next(new Error("Authentication token is required"));
       return;

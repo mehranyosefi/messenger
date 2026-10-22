@@ -49,18 +49,22 @@ export const updateMessageSchema = z.object({
 // Types
 export type CreateMessageBody = z.infer<typeof createMessageSchema>["body"];
 
-export type MessageIdParams = z.infer<typeof messageIdSchema>["params"] & ParamsDictionary;
+export type MessageIdParams = z.infer<typeof messageIdSchema>["params"] &
+  ParamsDictionary;
 
 export type ConversationMessagesParams = z.infer<
   typeof conversationMessagesSchema
->["params"] & ParamsDictionary;
+>["params"] &
+  ParamsDictionary;
 
 export type ConversationMessagesQuery = z.infer<
   typeof conversationMessagesSchema
->["query"] & ParsedQs;
+>["query"] &
+  ParsedQs;
 
 export type UpdateMessageParams = z.infer<
   typeof updateMessageSchema
->["params"] & ParamsDictionary;
+>["params"] &
+  ParamsDictionary;
 
 export type UpdateMessageBody = z.infer<typeof updateMessageSchema>["body"];
