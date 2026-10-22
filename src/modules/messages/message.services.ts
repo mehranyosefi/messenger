@@ -14,11 +14,7 @@ interface GetConversationMessagesResult {
 }
 
 export default class MessageServices {
-  async createMessage(
-    senderId: string,
-    conversationId: string,
-    content: string,
-  ): Promise<IMessage> {
+  async createMessage(senderId: string, conversationId: string, content: string): Promise<IMessage> {
     console.log("conversationId", conversationId);
     const conversation = await ConversationModel.findOne({
       _id: new Types.ObjectId(conversationId),
@@ -60,7 +56,6 @@ export default class MessageServices {
     limit: number,
     before?: string,
   ): Promise<GetConversationMessagesResult> {
-    console.log("limit", limit);
     const conversation = await ConversationModel.findOne({
       _id: new Types.ObjectId(conversationId),
       participants: new Types.ObjectId(userId),
@@ -89,9 +84,9 @@ export default class MessageServices {
     }
 
     const messages = await MessageModel.find(filter)
-      // .sort({
-      //   createdAt: -1,
-      // })
+      .sort({
+        createdAt: -1,
+      })
       .limit(parseInt(String(limit)) + 1)
       .exec();
 
@@ -132,11 +127,7 @@ export default class MessageServices {
     return message;
   }
 
-  async updateMessage(
-    userId: string,
-    messageId: string,
-    content: string,
-  ): Promise<IMessage> {
+  async updateMessage(userId: string, messageId: string, content: string): Promise<IMessage> {
     const message = await MessageModel.findOne({
       _id: new Types.ObjectId(messageId),
     }).exec();
@@ -184,7 +175,6 @@ export default class MessageServices {
 
     const conversation = await ConversationModel.findOne({
       _id: message.conversation,
-
       participants: new Types.ObjectId(userId),
     })
       .select("_id")
