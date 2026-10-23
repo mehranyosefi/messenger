@@ -55,6 +55,10 @@ export default class ConversationServices {
     return ConversationModel.find({
       participants: new Types.ObjectId(userId),
     })
+    .populate({
+      path: "participants",
+      select: "name username avatar"
+    })
       .sort({ updatedAt: -1 })
       .exec();
   }
