@@ -45,9 +45,7 @@ export const createWebSocketServer = (httpServer: HttpServer): AppServer => {
 
   io.on(SocketEvent.CONNECTION, (socket: AppSocket) => {
     const userId = socket.data.user.id;
-
     socket.join(getUserRoom(userId));
-    console.log("tes");
     registerMessageHandlers(io, socket);
     registerConversationHandlers(socket);
 

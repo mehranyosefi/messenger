@@ -16,33 +16,16 @@ import type {
 class MessageController {
   private readonly messageServices = new MessageServices();
 
-  create = catchAsync(
-    async (
-      req: Request<Record<string, never>, unknown, CreateMessageBody>,
-      res: Response,
-    ) => {
-      const message = await this.messageServices.createMessage(
-        req.user.id,
-        req.body.conversationId,
-        req.body.content,
-      );
+  create = catchAsync(async (req: Request<Record<string, never>, unknown, CreateMessageBody>, res: Response) => {
+    const message = await this.messageServices.createMessage(req.user.id, req.body.conversationId, req.body.content);
 
-      res.status(201).json({
-        data: message,
-      });
-    },
-  );
+    res.status(201).json({
+      data: message,
+    });
+  });
 
   getConversationMessages = catchAsync(
-    async (
-      req: Request<
-        ConversationMessagesParams,
-        unknown,
-        unknown,
-        ConversationMessagesQuery
-      >,
-      res: Response,
-    ) => {
+    async (req: Request<ConversationMessagesParams, unknown, unknown, ConversationMessagesQuery>, res: Response) => {
       const result = await this.messageServices.getConversationMessages(
         req.user.id,
         req.params.conversationId,
@@ -60,32 +43,20 @@ class MessageController {
   );
 
   getOne = catchAsync(async (req: Request<MessageIdParams>, res: Response) => {
-    const message = await this.messageServices.getMessageById(
-      req.user.id,
-      req.params.id,
-    );
+    const message = await this.messageServices.getMessageById(req.user.id, req.params.id);
 
     res.status(200).json({
       data: message,
     });
   });
 
-  update = catchAsync(
-    async (
-      req: Request<UpdateMessageParams, unknown, UpdateMessageBody>,
-      res: Response,
-    ) => {
-      const message = await this.messageServices.updateMessage(
-        req.user.id,
-        req.params.id,
-        req.body.content,
-      );
+  update = catchAsync(async (req: Request<UpdateMessageParams, unknown, UpdateMessageBody>, res: Response) => {
+    const message = await this.messageServices.updateMessage(req.user.id, req.params.id, req.body.content);
 
-      res.status(200).json({
-        data: message,
-      });
-    },
-  );
+    res.status(200).json({
+      data: message,
+    });
+  });
 
   delete = catchAsync(async (req: Request<MessageIdParams>, res: Response) => {
     await this.messageServices.deleteMessage(req.user.id, req.params.id);

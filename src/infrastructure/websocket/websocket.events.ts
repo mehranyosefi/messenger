@@ -6,6 +6,10 @@ export const SocketEvent = {
 
   MESSAGE_SEND: "message:send",
   MESSAGE_NEW: "message:new",
+  MESSAGE_DELETE: "message:delete",
+  MESSAGE_DELETED: "message:deleted",
+  MESSAGE_EDIT: "message:edit",
+  MESSAGE_EDITED: "message:edited",
 
   MESSAGE_DELIVERED: "message:delivered",
   MESSAGE_READ: "message:read",

@@ -11,6 +11,14 @@ export interface ClientToServerEvents {
     data: SendMessagePayload,
     callback?: SocketCallback<SendMessageResponse>,
   ) => void;
+  "message:delete": (
+    data: SendMessageDeletePayload,
+    callback?: SocketCallback<null>,
+  ) => void;
+  "message:edit": (
+    data: SendMessageEditPayload,
+    callback?: SocketCallback<null>,
+  ) => void;
   "conversation:join": (data: ConversationRoomPayload) => void;
   "conversation:leave": (data: ConversationRoomPayload) => void;
   "typing:start": (data: ConversationRoomPayload) => void;
@@ -19,6 +27,8 @@ export interface ClientToServerEvents {
 
 export interface ServerToClientEvents {
   "message:new": (data: MessageSocketPayload) => void;
+  "message:deleted": (data: null) => void;
+  "message:edited": (data: MessageSocketPayload) => void;
   "typing:start": (data: TypingSocketPayload) => void;
   "typing:stop": (data: TypingSocketPayload) => void;
   error: (data: SocketErrorPayload) => void;
@@ -34,6 +44,16 @@ export interface SocketData {
 
 export interface SendMessagePayload {
   conversationId: string;
+  content: string;
+}
+export interface SendMessageDeletePayload {
+  conversationId: string;
+  messageId: string;
+}
+
+export interface SendMessageEditPayload {
+  conversationId: string;
+  messageId: string;
   content: string;
 }
 
