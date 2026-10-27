@@ -13,7 +13,7 @@ export interface ClientToServerEvents {
   ) => void;
   "message:delete": (
     data: SendMessageDeletePayload,
-    callback?: SocketCallback<null>,
+    callback?: SocketCallback<SendMessageDeletePayload>,
   ) => void;
   "message:edit": (
     data: SendMessageEditPayload,
@@ -27,7 +27,7 @@ export interface ClientToServerEvents {
 
 export interface ServerToClientEvents {
   "message:new": (data: MessageSocketPayload) => void;
-  "message:deleted": (data: null) => void;
+  "message:deleted": (data: SendMessageDeletePayload) => void;
   "message:edited": (data: MessageSocketPayload) => void;
   "typing:start": (data: TypingSocketPayload) => void;
   "typing:stop": (data: TypingSocketPayload) => void;

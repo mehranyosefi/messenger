@@ -60,9 +60,15 @@ export const registerMessageHandlers = (io: AppServer, socket: AppSocket): void 
       await messageServices.deleteMessage(socket.data.user.id, data.messageId);
       callback?.({
         success: true,
-        data: null,
+        data: {
+          conversationId: data.conversationId,
+          messageId: data.messageId
+        },
       });
-      io.to(getConversationRoom(data.conversationId)).emit(SocketEvent.MESSAGE_DELETED, null);
+      io.to(getConversationRoom(data.conversationId)).emit(SocketEvent.MESSAGE_DELETED, {
+        conversationId: data.conversationId,
+        messageId: data.messageId
+      });
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Failed to remove message";
 
